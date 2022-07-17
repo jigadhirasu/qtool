@@ -11,7 +11,3 @@ type Result struct {
 	Length       int64        `json:",omitempty"`
 	Data         types.Bytes  `json:",omitempty"`
 }
-
-func Sum[T int | float64](a, b T) T {
-	return a + b
-}
