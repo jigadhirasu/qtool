@@ -2,6 +2,7 @@ package mariadb
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/jigadhirasu/qtool/types"
@@ -101,3 +102,19 @@ func (c C) Values(tx *gorm.DB) types.Bytes {
 }
 
 type KV map[string]interface{}
+
+func (kv KV) Where(tx *gorm.DB) *gorm.DB {
+	for k, v := range kv {
+		switch str := v.(type) {
+		case string:
+			if ok, _ := regexp.MatchString("^LT([w-])$", strings.ToUpper(str)); ok {
+
+			}
+		case []string:
+			tx = tx.Where(k+" IN ?", v)
+		}
+
+	}
+
+	return tx
+}
