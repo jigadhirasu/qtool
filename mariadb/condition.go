@@ -27,6 +27,7 @@ func column(field ...string) string {
 
 type C struct {
 	Table string   // 資料表明
+	ID    int      // 流水號
 	UUID  string   // 唯一編號
 	Field []string // 有索引的屬性
 	Attr  []string // 沒索引的屬性
