@@ -4,10 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"reflect"
-	"time"
 
 	"github.com/jigadhirasu/qtool/types"
-	"gorm.io/gorm"
 )
 
 type Record struct {
@@ -45,41 +43,30 @@ func (RecordShell) TableName() string {
 	return Record{}.TableName()
 }
 
-func (m RecordShell) Where(tx *gorm.DB) *gorm.DB {
-	if m.OpID != "" {
-		tx = tx.Where("OpID = ?", m.OpID)
-	}
-	if m.OwnerID != "" {
-		tx = tx.Where("OwnerID = ?", m.OwnerID)
-	}
-	if m.TargetID != "" {
-		tx = tx.Where("TargetID = ?", m.TargetID)
-	}
-	if m.Target != "" {
-		tx = tx.Where("Target = ?", m.Target)
-	}
-	if len(m.Targets) > 0 {
-		tx = tx.Where("Target IN ?", m.Targets)
-	}
-	if m.Method != "" {
-		tx = tx.Where("JSON_VALUE(DOC, '$.Method') = ?", m.Method)
-	}
-	if m.Field != "" {
-		tx = tx.Where("Field = ?", m.Field)
-	}
-	if m.CreatedLeft != "" {
-		if _, err := time.Parse(m.CreatedLeft, types.TimeFormat); err != nil {
-			tx = tx.Where("CreatedAt >= ?", m.CreatedLeft)
-		}
-	}
-	if m.CreatedRight != "" {
-		if _, err := time.Parse(m.CreatedRight, types.TimeFormat); err != nil {
-			tx = tx.Where("CreatedAt < ?", m.CreatedRight)
-		}
-	}
-
-	return tx
-}
+// func (m RecordShell) Where(tx *gorm.DB) *gorm.DB {
+// 	if m.OpID != "" {
+// 		tx = tx.Where("OpID = ?", m.OpID)
+// 	}
+// 	if m.OwnerID != "" {
+// 		tx = tx.Where("OwnerID = ?", m.OwnerID)
+// 	}
+// 	if m.TargetID != "" {
+// 		tx = tx.Where("TargetID = ?", m.TargetID)
+// 	}
+// 	if m.Target != "" {
+// 		tx = tx.Where("Target = ?", m.Target)
+// 	}
+// 	if len(m.Targets) > 0 {
+// 		tx = tx.Where("Target IN ?", m.Targets)
+// 	}
+// 	if m.Method != "" {
+// 		tx = tx.Where("JSON_VALUE(DOC, '$.Method') = ?", m.Method)
+// 	}
+// 	if m.Field != "" {
+// 		tx = tx.Where("Field = ?", m.Field)
+// 	}
+// 	return tx
+// }
 
 func diff(old, new interface{}) error {
 
